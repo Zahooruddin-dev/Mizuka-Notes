@@ -64,6 +64,32 @@ export default function App() {
             return newArray
         })
     }
+       /**
+     * Challenge: complete and implement the deleteNote function
+     * 
+     * Hints: 
+     * 1. What array method can be used to return a new
+     *    array that has filtered out an item based 
+     *    on a condition?
+     * 2. Notice the parameters being based to the function
+     *    and think about how both of those parameters
+     *    can be passed in during the onClick event handler
+     * function deleteNote(event, noteId) {
+    event.stopPropagation();
+
+    setNotes(prevNotes => 
+        prevNotes.filter(note => note.id !== noteId)
+    );
+}
+
+     */
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+        console.log("Deleting note with ID:", noteId);
+        setNotes(prevNotes => 
+            prevNotes.filter(note => note.id !== noteId)
+        );
+    }
 	return (
 		<main>
 			{notes.length > 0 ? (
@@ -73,6 +99,7 @@ export default function App() {
 						currentNote={findCurrentNote()}
 						setCurrentNoteId={setCurrentNoteId}
 						newNote={createNewNote}
+                        deleteNote={deleteNote}
 					/>
 					{currentNoteId && notes.length > 0 && (
 						<Editor 
