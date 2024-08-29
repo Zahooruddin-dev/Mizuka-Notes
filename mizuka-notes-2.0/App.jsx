@@ -7,8 +7,8 @@ import { onSnapshot } from 'firebase/firestore';
 import { notesCollection } from './firebase';
 export default function App() {
 	const [notes, setNotes] = React.useState(() => {
-		const savedNotes = localStorage.getItem('notes');
-		try {
+
+        try {
 			return savedNotes ? JSON.parse(savedNotes) : [];
 		} catch (error) {
 			console.error('Error parsing JSON from localStorage:', error);
@@ -29,7 +29,10 @@ export default function App() {
 
 	React.useEffect(() => {
 		const unsubscribe = onSnapshot(notesCollection, () => {
-            console.log('change');
+            const noteArr = snapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id
+            }))
             
         });
         return unsubscribe
