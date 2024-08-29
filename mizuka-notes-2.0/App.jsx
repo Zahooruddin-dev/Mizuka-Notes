@@ -3,22 +3,34 @@ import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import Split from 'react-split';
 import { nanoid } from 'nanoid';
-import { onSnapshot } from 'firebase/firestore';
+import { onSnapshot, addDoc } from 'firebase/firestore';
 import { notesCollection } from './firebase';
 export default function App() {
-	const [notes, setNotes] = React.useState(() => {
-
-        try {
-			return savedNotes ? JSON.parse(savedNotes) : [];
-		} catch (error) {
-			console.error('Error parsing JSON from localStorage:', error);
-			return [];
-		}
-	});
+	const [notes, setNotes] = React.useState([]);
 
 	const [currentNoteId, setCurrentNoteId] = React.useState(
 		(notes[0] && notes[0].id) || ''
 	);
+	React.useEffect(() => {
+		const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
+			// Sync up our local notes array with the snapshot data
+			const notesArr = snapshot.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+			setNotes(notesArr);
+		});
+		return unsubscribe;
+	}, []);
+
+	async function createNewNote() {
+		console.log('worked createNewNote');
+		const newNote = {
+			body: "# Type your markdown note's title here",
+		};
+		const newNoteRef = await addDoc(notesCollection, newNote);
+		setCurrentNoteId(newNoteRef.id);
+	}
 	function findCurrentNote() {
 		return (
 			notes.find((note) => {
@@ -27,28 +39,8 @@ export default function App() {
 		);
 	}
 
-	React.useEffect(() => {
-		const unsubscribe = onSnapshot(notesCollection, () => {
-            const noteArr = snapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id
-            }))
-            
-        });
-        return unsubscribe
-	}, []);
-
-	function createNewNote() {
-		const newNote = {
-			id: nanoid(),
-			body: "# Type your markdown note's title here",
-		};
-		setNotes((prevNotes) => [newNote, ...prevNotes]);
-		setCurrentNoteId(newNote.id);
-	}
-
 	function updateNote(text) {
-		// puttint the most recently modified notes up at the top
+		// puttint the most recently modified notes up at the top and not the update that you would think
 
 		setNotes((oldNotes) => {
 			const newArray = [];
