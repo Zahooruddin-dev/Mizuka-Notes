@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import Split from 'react-split';
 import { nanoid } from 'nanoid';
-import { onSnapshot, addDoc, doc, deleteDoc, setDoc,collection,query,orderBy,getDocs } from 'firebase/firestore';
+import {
+	onSnapshot,
+	addDoc,
+	doc,
+	deleteDoc,
+	setDoc,
+	collection,
+	query,
+	orderBy,
+	getDocs,
+} 
+from 'firebase/firestore';
 import { notesCollection, db } from './firebase';
 export default function App() {
 	const [notes, setNotes] = React.useState([]);
 	const [currentNoteId, setCurrentNoteId] = React.useState('');
+	const [tempNoteText, setTempNoteText] = React.useState('');
 
-	console.log(currentNoteId);
 
 	const currentNote =
-		notes.find((note) => note.id === currentNoteId) || notes[0];
-
-
-	const sortedNotes = notes.sort((a,b) => b.updatedAt - a.updatedAt)
-
-
+	notes.find((note) => note.id === currentNoteId) || notes[0];
+	const sortedNotes = notes.sort((a, b) => b.updatedAt - a.updatedAt);
 
 	React.useEffect(() => {
 		const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
@@ -31,11 +38,33 @@ export default function App() {
 		return unsubscribe;
 	}, []);
 
+
+	React.useEffect(() => {
+		if (currentNote) {
+			setTempNoteText(currentNote.body);
+		}
+	}, [currentNote]);
+
+
 	React.useEffect(() => {
 		if (!currentNoteId) {
 			setCurrentNoteId(notes[0]?.id);
 		}
 	}, [notes]);
+ /**
+     * Create an effect that runs any time the tempNoteText changes
+     * Delay the sending of the request to Firebase
+     *  uses setTimeout
+     * use clearTimeout to cancel the timeout
+     */
+	React.useEffect(() =>{
+		const timeOut =setTimeout(() => { // timeOut is timeoutId too for understanding
+			if(tempNoteText !== currentNote.body){
+			updateNote(tempNoteText)}
+		}, 500);
+		return ()=> clearTimeout(timeOut)//500 means 500ms no need to put ms 
+	},[tempNoteText])
+
 
 	async function createNewNote() {
 		const newNote = {
@@ -72,7 +101,10 @@ export default function App() {
 						newNote={createNewNote}
 						deleteNote={deleteNote}
 					/>
-					<Editor currentNote={currentNote} updateNote={updateNote} />
+					<Editor
+						tempNoteText={tempNoteText}
+						setTempNoteText={setTempNoteText}
+					/>
 				</Split>
 			) : (
 				<div className='no-notes'>

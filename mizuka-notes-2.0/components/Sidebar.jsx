@@ -21,11 +21,17 @@ export default function Sidebar(props) {
             </div>
         </div>
     ))
-
+   function notesH1(){
+    setTimeout(function(){
+        location.reload();
+        console.log("page refreshed because the user clicked the notes h1");
+        
+    }, 3000); //
+   }
     return (
         <section className="pane sidebar">
             <div className="sidebar--header">
-                <h3>Notes</h3>
+        <button className="noteH1" onClick={notesH1}><h3>Notes</h3></button>
                 <button className="new-note" onClick={props.newNote}>+</button>
             </div>
             {noteElements}
