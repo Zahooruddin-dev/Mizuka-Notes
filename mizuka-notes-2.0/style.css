@@ -12,10 +12,12 @@ button:focus {
     outline: none;
 }
 
+/* Editor paragraph and placeholder text */
 .ql-editor p,
 .ql-editor.ql-blank::before {
     font-size: 1.3em;
     font-weight: 100;
+    transition: color 0.3s ease;
 }
 
 .pane {
@@ -26,46 +28,82 @@ button:focus {
 .sidebar {
     width: 20%;
     height: 100vh;
+    transition: background-color 0.3s ease;
 }
 
-.sidebar--note {
-    /* display: flex; */
+.sidebar:hover {
+    background-color: #f0f0f0; /* Subtle change on hover */
 }
 
+/* Sidebar header */
 .sidebar--header {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    transition: color 0.3s ease;
 }
 
 .sidebar--header > h3 {
     font-size: 1.75rem;
+    cursor: pointer; /* Indicate it's interactive */
 }
 
+.sidebar--header > h3:hover {
+    color: #4A4E74; /* Slight color change on hover */
+}
+
+/* New note button */
 .new-note {
     cursor: pointer;
-    background-color: #4A4E74;
+    background-color: #498b7c;
     border: none;
     color: white;
     border-radius: 3px;
     height: 30px;
     width: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.new-note:hover {
+    background-color: #2fa88e; /* Slightly lighter shade on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* First note button */
 .first-note {
     cursor: pointer;
-    background-color: #4A4E74;
+    background-color: #31c7b3;
     border: none;
     color: white;
     border-radius: 3px;
     padding: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.first-note:hover {
+    background-color: #085245; /* Slightly lighter shade on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+.noNote{
+    font-size: 3.2rem;
+    transition: font-size 0.5s ease, transform 0.5s ease;
+
+}
+.noNote:hover{
+    transform: scale(1.2);
+}
+/* Editor section */
 .editor {
     width: 80%;
     height: 100vh;
+    transition: background-color 0.3s ease;
 }
 
+.editor:hover {
+    background-color: #f9f9f9; /* Slight background change on hover */
+}
+
+/* Title section */
 .title {
     overflow: hidden;
     width: 100%;
@@ -73,17 +111,26 @@ button:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.title:hover {
+    background-color: #f0f0f0; /* Slight background change on hover */
+    transform: scale(1.02); /* Slight zoom effect */
+}
+
+/* Delete button */
 .title--delete {
     display: none;
     cursor: pointer;
     background-color: transparent;
     border: none;
+    transition: color 0.3s ease;
 }
 
 .title:hover .title--delete {
     display: block;
+    color: #ff0000; /* Red color on hover to indicate delete */
 }
 
 .note-summary:not(:last-of-type) {
@@ -99,20 +146,36 @@ button:focus {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color 0.3s ease;
+}
+
+.text-snippet:hover {
+    color: #429b88; /* Slight color change on hover */
 }
 
 .selected-note {
-    background-color: #4A4E74;
+    background-color: #498b7c;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.selected-note:hover {
+    background-color: #2fa88e; /* Slightly lighter shade on hover */
+    transform: scale(1.02); /* Slight zoom effect */
 }
 
 .selected-note .text-snippet {
     color: white;
     font-weight: 700;
+    transition: text-shadow 0.3s ease;
 }
 
+.selected-note:hover .text-snippet {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow effect */
+}
+
+/* Gutter styles */
 .gutter {
     background-color: #eee;
-
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -123,12 +186,16 @@ button:focus {
 
 .gutter.gutter-horizontal:hover {
     cursor: col-resize;
+    background-color: #ddd; /* Slight color change on hover */
 }
 
+/* Split view */
 .split {
     display: flex;
+    transition: flex-grow 0.3s ease;
 }
 
+/* No notes section */
 .no-notes {
     width: 100%;
     height: 100vh;
@@ -136,28 +203,42 @@ button:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: whitesmoke;
+    background-color: rgb(96, 165, 148);
+    transition: background-color 0.6s ease;
 }
 
+.no-notes:hover {
+    background-color: #498b7c; /* Slight background change on hover */
+}
+
+/* Delete button styles */
 .delete-btn {
     display: none;
     background: none;
     border: none;
+    transition: transform 0.3s ease;
 }
 
 .title:hover > .delete-btn {
     display: block;
+    transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 .trash-icon {
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
- .gg-trash {
+.trash-icon:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
+}
+
+/* Trash icon specific styles */
+.gg-trash {
     box-sizing: border-box;
     position: relative;
     display: block;
-    transform: scale(var(--ggs,1));
+    transform: scale(var(--ggs, 1));
     width: 10px;
     height: 12px;
     border: 2px solid transparent;
@@ -167,7 +248,8 @@ button:focus {
         inset 2px 0 0;
     border-bottom-left-radius: 1px;
     border-bottom-right-radius: 1px;
-    margin-top: 4px
+    margin-top: 4px;
+    transition: box-shadow 0.3s ease;
 }
 
 .gg-trash::after,
@@ -175,7 +257,8 @@ button:focus {
     content: "";
     display: block;
     box-sizing: border-box;
-    position: absolute
+    position: absolute;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .gg-trash::after {
@@ -184,7 +267,7 @@ button:focus {
     width: 16px;
     height: 2px;
     top: -4px;
-    left: -5px
+    left: -5px;
 }
 
 .gg-trash::before {
@@ -195,11 +278,38 @@ button:focus {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     top: -7px;
-    left: -2px
-} .noteH1 {
+    left: -2px;
+}
+
+.gg-trash:hover {
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); /* Red glow on hover */
+    transform: scale(1.2); /* Slightly enlarge on hover */
+}
+
+/* Heading styles */
+.noteH1 {
+    color: #498b7c;
     all: unset;
-  }
-  
-  .noteH1:focus {
+    font-size: 1.25rem; /* Slightly larger font size */
+    cursor: pointer; /* Indicate it's clickable */
+    padding: 5px 10px; /* Add some padding to give it a button-like feel */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.noteH1:focus {
     outline: revert;
-  }
+    transform: scale(1.05); /* Slightly enlarge on focus to indicate interaction */
+    box-shadow: 0 0 5px rgba(9, 87, 70, 0.3); /* Add a subtle shadow to indicate focus */
+}
+
+.noteH1:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4); /* Shadow to indicate it’s a button */
+    color: #5c998f; /* Slight color change on hover */
+}
+
+.noteH1:active {
+    transform: scale(1); /* Reset the scale on click for a 'press' effect */
+    box-shadow: 0 0 3px rgba(35, 105, 88, 0.2); /* Lessen shadow on click */
+    color: #4a7471; /* Color revert on click */
+}

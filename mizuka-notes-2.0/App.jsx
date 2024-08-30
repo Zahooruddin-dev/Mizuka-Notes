@@ -108,7 +108,7 @@ export default function App() {
 				</Split>
 			) : (
 				<div className='no-notes'>
-					<h1>You have no notes</h1>
+					<h1 className='noNote'>You Have No Notes</h1>
 					<button className='first-note' onClick={createNewNote}>
 						Create one now
 					</button>
